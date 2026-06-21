@@ -15,7 +15,13 @@ claude/                       # ~/.claude/ にミラーされる中身
   agents/                     # カスタムサブエージェント（config-improver, project-modernizer）
   skills/                     # 自作の UX/レビュー系 skill（計10）
 install.sh                    # claude/ を ~/.claude/ に symlink する冪等インストーラ
+.claude/                      # ★このリポジトリ作業時だけ有効な project-local 設定
+  skills/repo-triage/         #   GitHub repo 棚卸し skill（global には出さない）
 ```
+
+> `claude/`（先頭ドット無し）は **global**（`~/.claude/` へ symlink、全プロジェクトで有効）。
+> `.claude/`（先頭ドット有り）は **project-local**（このリポジトリを開いているときだけ有効）。
+> global に常駐させたくない・このリポジトリ専用の skill / 設定はこちらに置く。install.sh は触らない。
 
 ### 管理対象外（あえて入れていない）
 
