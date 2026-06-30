@@ -2,6 +2,12 @@
 
 ユーザーへの応答は常に日本語で行うこと。コード内のコメントや識別子はプロジェクトの慣習に従い、必要に応じて英語のままで構わない。
 
+# パッケージマネージャ
+
+Node.js プロジェクトのセットアップ・依存追加・スクリプト実行・単発ツール実行は **基本的に pnpm を使う**（`npm` / `yarn` ではなく `pnpm install` / `pnpm add` / `pnpm run` / `pnpm dlx`）。新規プロジェクトの初期化も pnpm を前提にする。
+
+ただし、対象プロジェクトが既に別のパッケージマネージャを採用している場合（`package-lock.json` / `yarn.lock` / `bun.lockb` の存在、`package.json` の `packageManager` フィールド、project の CLAUDE.md の明示など）は **そのプロジェクトの方式を優先**する。lockfile が混在する事故を避けるため、既存リポジトリで断りなく pnpm に乗り換えない。
+
 # Skill / slash command の言語
 
 `.claude/commands/` / `.claude/skills/` / `~/.claude/commands/` などに置く **Claude への指示文は英語で書く**。理由: `stage` / `subject line` / `pre-commit hook` / `HEREDOC` のような技術語彙の連想が英語のほうがブレず、組み込み skill や公式 docs ともレジストリが揃うため。日本語で書くと精度が落ちる傾向がある。
