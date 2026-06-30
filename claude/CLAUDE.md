@@ -8,6 +8,23 @@ Node.js プロジェクトのセットアップ・依存追加・スクリプト
 
 ただし、対象プロジェクトが既に別のパッケージマネージャを採用している場合（`package-lock.json` / `yarn.lock` / `bun.lockb` の存在、`package.json` の `packageManager` フィールド、project の CLAUDE.md の明示など）は **そのプロジェクトの方式を優先**する。lockfile が混在する事故を避けるため、既存リポジトリで断りなく pnpm に乗り換えない。
 
+# 作業ブランチの起点
+
+新しい作業（feature / fix の実装など、コード変更を伴うもの）を始めるときは、必ず **upstream の最新を起点**にする。古い base から派生したまま実装を始めて、後から大きな rebase / conflict が出るのを避けるため。
+
+- 作業ブランチを切る前に default branch（`main`、なければ `develop` / `master`）を `git fetch` し、その**最新コミットから**新しいブランチを生やす。ブランチ作成を伴うときは `/branch` skill を優先して使う（upstream の default branch から生やす挙動）。
+- default branch に checkout してから作業を始める場合は、**checkout 後に必ず `git pull`（fast-forward）して local を upstream の最新に追従させてから**ブランチを切る／作業する。local の `main`/`develop` が古いまま派生すると、結局同じ rebase / conflict 問題が起きるため。
+- default branch の名前はプロジェクトごとに違う。`git remote show origin` の HEAD 等で確認し、`develop` 運用のリポジトリでは develop を起点にする。
+- すでに古い branch 上にいる／現在の作業が古い base から派生している場合は、`sync-main` skill 等で upstream の最新に追従してから進める。
+
+## ブランチ名・worktree 名の規約
+
+コード変更を伴う作業を始めるときは、最新の main / develop からブランチを切り、worktree を作成する。その際の命名は以下に統一する:
+
+- **ブランチ名は `feature/<作業内容>` に統一**する（例: `feature/add-login`、`feature/fix-score-rounding`）。fix / refactor / chore など作業の種別を問わず、すべて `feature/` プレフィックスで揃える。`<作業内容>` は内容が分かる kebab-case の短い英語にする。
+- **worktree 名（`EnterWorktree` の `name` ＝ ディレクトリ名）はブランチ名ではなく作業名**にする。`feature/` プレフィックスは付けず、作業内容そのものを名前にする（例: ブランチが `feature/add-login` なら worktree 名は `add-login`）。
+- ただし対象リポジトリに独自のブランチ命名規約がある場合（CONTRIBUTING / project CLAUDE.md の明示、既存ブランチが一貫した別パターン など）は、そのプロジェクトの方式を優先する。
+
 # Skill / slash command の言語
 
 `.claude/commands/` / `.claude/skills/` / `~/.claude/commands/` などに置く **Claude への指示文は英語で書く**。理由: `stage` / `subject line` / `pre-commit hook` / `HEREDOC` のような技術語彙の連想が英語のほうがブレず、組み込み skill や公式 docs ともレジストリが揃うため。日本語で書くと精度が落ちる傾向がある。
