@@ -1,7 +1,8 @@
 ---
 description: Make one or more commits from the current working tree, splitting by topic so each commit covers a single cohesive change, then ask whether to push / open a PR / enable auto-merge
 model: opus
-allowed-tools: Bash, Read, Edit, Write, AskUserQuestion, Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git add:*), Bash(git commit:*), Bash(git checkout:*), Bash(git restore:*), Bash(git stash:*), Bash(git rm:*), Bash(git mv:*), Bash(git show:*), Bash(git rev-parse:*), Bash(git config get:*), Bash(git push:*), Bash(gh pr create:*), Bash(gh pr view:*), Bash(gh pr merge:*), Bash(gh repo view:*)
+allowed-tools: Read, Edit, Write, AskUserQuestion, Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git add:*), Bash(git commit:*), Bash(git checkout:*), Bash(git restore:*), Bash(git stash:*), Bash(git rm:*), Bash(git mv:*), Bash(git show:*), Bash(git rev-parse:*), Bash(git config get:*), Bash(git push:*), Bash(sed:*), Bash(gh pr create:*), Bash(gh pr view:*), Bash(gh pr list:*), Bash(gh pr merge:*), Bash(gh repo view:*)
+argument-hint: [グループ分けのヒント — 例: "2 commits" / "license と UI を分割" / "1コミットで"]
 ---
 
 Turn the current working tree into commits — one per topic — then ask the user how far to take it: push only, push + open PR, or push + open PR + enable auto-merge. The final number N may be 1 or many; that's decided after surveying the diff. Every intermediate state must compile and pass whatever pre-commit hooks the repo has configured (e.g. lefthook, husky, pre-commit framework, git hooks under `.git/hooks/`). Do not skip hooks.

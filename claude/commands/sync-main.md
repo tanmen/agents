@@ -1,7 +1,8 @@
 ---
 description: Catch the current branch up with the latest upstream main/master — fetch, rebase (or merge), resolve conflicts, verify, and offer to push
 model: opus
-allowed-tools: Bash, Read, Edit, Write, Glob, Grep, AskUserQuestion, Bash(git fetch:*), Bash(git rebase:*), Bash(git merge:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git show:*), Bash(git add:*), Bash(git push:*), Bash(git rev-parse:*), Bash(gh pr view:*), Bash(gh pr checks:*)
+allowed-tools: Read, Edit, Write, Glob, Grep, AskUserQuestion, Bash(git fetch:*), Bash(git pull:*), Bash(git rebase:*), Bash(git merge:*), Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git show:*), Bash(git add:*), Bash(git push:*), Bash(git rev-parse:*), Bash(gh pr view:*), Bash(gh pr checks:*)
+argument-hint: [base branch 名 | merge]
 ---
 
 Bring the current branch up to date with the repository's default branch (origin/main or origin/master), resolving any conflicts along the way. This is the recurring "main に別の PR がマージされたのでコンフリクト解消してほしい" workflow as a single command.
