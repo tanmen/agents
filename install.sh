@@ -9,7 +9,7 @@
 #
 # Granularity:
 #   - top-level files (CLAUDE.md, settings.json, statusline-command.sh) -> symlinked
-#   - commands/*, agents/*                                              -> per-file symlink
+#   - commands/*, agents/*, hooks/*, rules/*                            -> per-file symlink
 #   - skills/*/                                                         -> per-skill-dir symlink
 #   The containing ~/.claude/{commands,agents,skills} dirs stay real, so
 #   untracked items installed there by other tooling are left untouched.
@@ -61,8 +61,8 @@ for f in CLAUDE.md settings.json statusline-command.sh; do
   [ -e "$SRC/$f" ] && link "$SRC/$f" "$DEST/$f" "$f"
 done
 
-# commands/* and agents/* (per-file)
-for sub in commands agents; do
+# commands/*, agents/*, hooks/*, rules/* (per-file)
+for sub in commands agents hooks rules; do
   [ -d "$SRC/$sub" ] || continue
   mkdir -p "$DEST/$sub"
   for item in "$SRC/$sub"/*; do

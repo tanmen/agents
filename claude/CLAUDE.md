@@ -1,3 +1,7 @@
+# この設定の実体（symlink 構成）
+
+`~/.claude/` 直下の `CLAUDE.md` / `settings.json` / `statusline-command.sh`、および `commands/` `agents/` `skills/` `hooks/` `rules/` 配下の各項目は、`~/Projects/agents/claude/` への symlink（`install.sh` が張る）。**編集するときは実体 `~/Projects/agents/claude/...` を直接編集する**（symlink 経由の Write は拒否されることがある）。hook / rule / command を新規追加するときも agents リポジトリ側に置き、`install.sh` を再実行するか同形式の symlink を張る。
+
 # 言語設定
 
 ユーザーへの応答は常に日本語で行うこと。コード内のコメントや識別子はプロジェクトの慣習に従い、必要に応じて英語のままで構わない。
