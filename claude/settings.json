@@ -31,6 +31,7 @@
       "Bash(realpath:*)",
       "Bash(ps:*)",
       "Bash(lsof:*)",
+      "Bash(mise:*)",
       "Bash(git status:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
@@ -43,7 +44,10 @@
       "Bash(git remote:*)",
       "Bash(git symbolic-ref:*)",
       "Bash(git show-ref:*)",
-      "Bash(git config:*)",
+      "Bash(git config --get*)",
+      "Bash(git config --list*)",
+      "Bash(git config get:*)",
+      "Bash(git config list:*)",
       "Bash(git fetch:*)",
       "Bash(git pull:*)",
       "Bash(git add:*)",
@@ -65,6 +69,10 @@
       "Bash(gh pr diff:*)",
       "Bash(gh pr checks:*)",
       "Bash(gh pr create:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(gh pr edit:*)",
+      "Bash(gh pr ready:*)",
+      "Bash(gh pr update-branch:*)",
       "Bash(gh run view:*)",
       "Bash(gh run list:*)",
       "Bash(gh run watch:*)",
@@ -73,25 +81,16 @@
       "Bash(gh issue view:*)",
       "Bash(gh issue list:*)",
       "Bash(gh secret list:*)",
-      "Bash(pnpm test)",
       "Bash(pnpm test:*)",
-      "Bash(pnpm lint)",
       "Bash(pnpm lint:*)",
-      "Bash(pnpm typecheck)",
       "Bash(pnpm typecheck:*)",
-      "Bash(pnpm type)",
       "Bash(pnpm type:*)",
-      "Bash(pnpm format)",
       "Bash(pnpm format:*)",
-      "Bash(pnpm build)",
       "Bash(pnpm build:*)",
-      "Bash(pnpm dev)",
       "Bash(pnpm dev:*)",
-      "Bash(pnpm e2e)",
+      "Bash(pnpm preview:*)",
       "Bash(pnpm e2e:*)",
-      "Bash(pnpm clean)",
       "Bash(pnpm clean:*)",
-      "Bash(pnpm install)",
       "Bash(pnpm install:*)",
       "Bash(pnpm vitest:*)",
       "Bash(pnpm -r:*)",
@@ -103,6 +102,7 @@
       "Bash(pnpm exec playwright:*)",
       "Bash(pnpm exec next:*)",
       "Bash(pnpm dlx prettier:*)",
+      "Bash(pnpm dlx tsx:*)",
       "Bash(npx tsc:*)",
       "Bash(npx vitest:*)",
       "Bash(npx prettier:*)",
@@ -137,12 +137,17 @@
       "Bash(git push --force)",
       "Bash(git push --force *)",
       "Bash(git push -f*)",
+      "Bash(git push * --force)",
+      "Bash(git push * --force *)",
+      "Bash(git push * -f)",
+      "Bash(git push * -f *)",
+      "Bash(git push * +*)",
       "Bash(git commit --no-verify*)",
       "Bash(git commit -n*)",
-      "Bash(curl * | sh*)",
-      "Bash(curl * | bash*)",
-      "Bash(wget * | sh*)",
-      "Bash(wget * | bash*)",
+      "Bash(git commit * --no-verify)",
+      "Bash(git commit * --no-verify *)",
+      "Bash(git commit * -n)",
+      "Bash(git commit * -n *)",
       "Bash(npm publish*)",
       "Bash(pnpm publish*)",
       "Bash(yarn publish*)",
@@ -179,11 +184,30 @@
     ],
     "defaultMode": "auto"
   },
-  "statusLine": {
-    "type": "command",
-    "command": "bash ~/.claude/statusline-command.sh"
-  },
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/guard-dangerous-commands.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "EnterWorktree",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/ensure-playwright-dir.sh",
+            "statusMessage": ".playwright-mcp を準備中..."
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "hooks": [
@@ -208,12 +232,16 @@
       }
     ]
   },
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline-command.sh"
+  },
   "enabledPlugins": {
-    "frontend-design@claude-plugins-official": true,
-    "stripe@claude-plugins-official": true
+    "frontend-design@claude-plugins-official": true
   },
   "effortLevel": "xhigh",
   "tui": "fullscreen",
   "theme": "dark-ansi",
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "model": "claude-fable-5[1m]"
 }
